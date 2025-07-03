@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 // #define DBG_DIAG_INDEXS
+// #define DBG_SOLVE_STEPS
 // #define DBG_COORD_INFO
 
 int xy_to_ddown(int x, int y, int n) { return (y - x) + n - 1; }
@@ -22,7 +23,7 @@ void assign(Field field, int x, int y, int value) {
 }
 
 int solve(int queen, int x0, Field field) {
-#ifdef DBG
+#ifdef DBG_SOLVE_STEPS
   printf("%d\n", queen);
   for (int x = 0; x < field.n; x++) {
     for (int y = 0; y < field.n; y++) {
@@ -33,7 +34,7 @@ int solve(int queen, int x0, Field field) {
     printf("\n");
   }
   printf("\n");
-#endif // DBG
+#endif // DBG_SOLVE_STEPS
   if (field.n == queen-1)
     return 1;
   for (int x = x0; x < field.n; x++) {
