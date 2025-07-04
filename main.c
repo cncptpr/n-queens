@@ -22,32 +22,29 @@ void assign(Field field, int x, int y, int value) {
       field.ddown[xy_to_ddown(x, y, field.n)] = value;
 }
 
-int solve(int queen, int x0, Field field) {
+int solve(int x, Field field) {
 #ifdef DBG_SOLVE_STEPS
-  printf("%d\n", queen);
+  printf("%d\n", x);
   for (int x = 0; x < field.n; x++) {
     for (int y = 0; y < field.n; y++) {
       if (field.x[x] != 0 && field.x[x] == field.y[y])
-        printf("%2d ",field.x[x]);
-      else printf(" 0 ");
+        printf("%2d ", field.x[x]);
+      else
+        printf(" 0 ");
     }
     printf("\n");
   }
   printf("\n");
 #endif // DBG_SOLVE_STEPS
-  if (field.n == queen-1)
+  if (field.n == x)
     return 1;
-  for (int x = x0; x < field.n; x++) {
-    if (field.x[x])
-      continue;
-    for (int y = 0; y < field.n; y++) {
-      if (is_zero(field, x, y)) {
-        assign(field, x, y, queen);
-        if(solve(queen+1, x, field)) {
-          return 1;
-        }
-        assign(field, x, y, 0);
+  for (int y = 0; y < field.n; y++) {
+    if (is_zero(field, x, y)) {
+      assign(field, x, y, x + 1);
+      if (solve(x + 1, field)) {
+        return 1;
       }
+      assign(field, x, y, 0);
     }
   }
   return 0;
@@ -79,6 +76,7 @@ int main(int argc, char **argv) {
   }
 }
 #else
+
 int main(int argc, char **argv) {
   if (argc < 2) {
     printf("usage: n-queens <n>\n");
@@ -98,7 +96,7 @@ int main(int argc, char **argv) {
       .ddown = calloc(2 * n - 1, sizeof(int)),
   };
 
-  assert(solve(1, 0, field));
+  assert(solve(0, field));
 
   for (int x = 0; x < n; x++) {
     for (int y = 0; y < n; y++) {
