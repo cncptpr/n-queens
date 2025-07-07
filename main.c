@@ -13,7 +13,7 @@ typedef struct {
   int n, *x, *y, *dup, *ddown;
 } Field;
 
-int is_zero(Field field, int x, int y) {
+int is_free(Field field, int x, int y) {
   return !field.x[x] && !field.y[y] && !field.dup[xy_to_dup(x, y, field.n)] &&
          !field.ddown[xy_to_ddown(x, y, field.n)];
 }
@@ -39,12 +39,12 @@ int solve(int x, Field field) {
   if (field.n == x)
     return 1;
   for (int y = 0; y < field.n; y++) {
-    if (is_zero(field, x, y)) {
-      assign(field, x, y, x + 1);
+    if (is_free(field, x, y)) {
+      assign(field, x, y, x + 1); // block
       if (solve(x + 1, field)) {
         return 1;
       }
-      assign(field, x, y, 0);
+      assign(field, x, y, 0); // unblock
     }
   }
   return 0;
