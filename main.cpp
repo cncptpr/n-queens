@@ -104,7 +104,7 @@ public:
       throw "Coord out of bounds";
   }
   void operator=(unsigned int value) { field.assign(x, y, value); }
-  operator bool() const { return !field.is_free(x, y); }
+  operator bool() const { return field.is_free(x, y); }
 };
 
 bool Field::solve(unsigned int x) {
@@ -115,7 +115,7 @@ bool Field::solve(unsigned int x) {
     return true;
   for (int y = 0; y < n; y++) {
     Cell cell(*this, x, y);
-    if (!cell) {
+    if (cell) {
       cell = x + 1; // block
       if (solve(x + 1)) {
         return true;
