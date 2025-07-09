@@ -1,6 +1,5 @@
 #include <assert.h>
 #include <iostream>
-#include <limits>
 #include <stdexcept>
 #include <stdio.h>
 #include <stdlib.h>
@@ -96,9 +95,9 @@ public:
 
 class Cell : public Coord {
   Field &field;
-  using Coord::Coord;
 
 public:
+  using Coord::Coord;
   Cell(Field &field, unsigned int x, unsigned int y)
       : field(field), Coord(x, y) {
     if (!(x < field.n && y < field.n))
